@@ -1,0 +1,135 @@
+body {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-image: url(/static/images/detail1.jpg);
+    background-size: cover;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px white;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.title {
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+}
+
+.process_title {
+    border: 2px solid black;
+    width: 50%;
+    justify-content: center;
+    margin-left: 25%;
+    margin-top: 100px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.algo_title {
+    border: 2px solid black;
+    width: 50%;
+    justify-content: center;
+    margin-left: 25%;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.arrow_1 {
+    margin-left: 48%;
+    width: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid white;
+}
+
+.tips {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.algo_content {
+    text-align: center;
+    justify-content: space-between;
+    margin-top: 100px;
+}
+
+.content {
+    cursor: pointer;
+    border: 2px solid white;
+    width: 180px;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 30px;
+    height: 100%;
+}
+
+.arrow_2 {
+    display: none;
+    margin-left: 48%;
+    width: 0;
+    height: 50px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid white;
+}
+
+.detail {
+    padding: 0;
+    display: none;
+    border: 2px solid black;
+    /*chartreuse greenyellow lawngreen rgb(225, 255, 0)*/
+}
+
+.indent {
+    text-indent: 2em;
+}
+
+.double_indent {
+    text-indent: 4em;
+}
+
+.table-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+table {
+    display: inline-block;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 2px solid white;
+    padding: 8px;
+    text-align: left;
+    background-color: #ccc;
+}
+
+th:first-child {
+    font-weight: normal;
+}
+
+text {
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.fixed_box {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    background-color: cyan;
+    padding: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}

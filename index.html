@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>automatic model recommender system</title>
+    <link rel="stylesheet" href="static/index.css">
+    <script src="static/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <main id="centered">
+        <div class="title">
+            <h1>Sales data automatic model recommender system</h1>
+        </div>
+
+        <div class="algo_title">
+            <p>
+                Algorithm overview
+            </p>
+        </div>
+
+        <div class="arrow_1"></div>
+
+        <div class="tips">
+            <h2 style="text-align: center">Tips</h2>
+            <p>If your data contains article information(e.g. name) of each transaction, then you can try <b>Association
+                    rule</b>.</p>
+            <p>If your data contains sales quantity(or price) and also some variables that change over time, try
+                <b>Prediction</b>.
+            </p>
+            <p>If your data contains sales quantity(or price) of each article(or of each store), you can do
+                <b>Clustering</b> and
+                <b>Classification</b> on article(or store).
+            </p>
+            <h2 style="text-align: center; margin-top: 50px;">Please upload sales data in .csv</h2>
+        </div>
+
+        <div style="text-align: center;">
+            <form action="/upload" method="post" enctype="multipart/form-data" style="display: inline-block;">
+                <label for="file-upload" id="upload-button" class="content" style="background-color: cyan;">
+                <p>Upload File</p>
+            </label>
+                <input id="file-upload" type="file" accept=".csv" style="display: none;">
+            </form>
+
+            <label for="file-create" class="content" style="background-color: cyan;">
+                <p>Create File</p>
+            </label>
+            <button id="file-create" style="display: none;"></button>
+        </div>
+
+        <div id="data-table" style="text-align: center;">
+        </div>
+
+        <div id="Btns" style="text-align: center; display: none;">
+            <button id="addRowBtn" style="display: inline-block;">Add Row</button>
+            <button id="addColBtn" style="display: inline-block;">Add Column</button>
+            <button id="submitBtn" style="display: inline-block;">Submit</button>
+        </div>
+
+        <div id="csv-data" style="text-align: center;">
+        </div>
+
+        <div id="recommendation" style="text-align: center;">
+        </div>
+
+        <div class="algo_content">
+            <h2 style="text-align: center;">Example experiments in the following five sections</h2>
+            <div class="content" onclick="show('detail1')" style="background-color: cyan;">
+                <p>
+                    Association rule
+                </p>
+            </div>
+            <div class="content" onclick="show('detail2')" style="background-color: cyan;">
+                <p>
+                    Prediction
+                </p>
+            </div>
+            <div class="content" onclick="show('detail3')" style="background-color: cyan;">
+                <p>
+                    Clustering
+                </p>
+            </div>
+            <div class="content" onclick="show('detail4')" style="background-color: cyan;">
+                <p>
+                    Classification
+                </p>
+            </div>
+            <div class="content" onclick="show('detail5')" style="background-color: cyan;">
+                <p>
+                    Matrix Factorization
+                </p>
+            </div>
+        </div>
+
+        <div class="arrow_2"></div>
+
+        <div class="detail" id="detail1">
+            <p style="text-align: center;font-size:30px;">
+                Association rule
+            </p>
+            <p class="indent">
+                <b>Algorithms:</b> Apriori, FP-Growth.
+            </p>
+            <p class="indent">
+                <b>Data preprocessing:</b> Convert the data format to the following style:
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>transaction1</th>
+                        <th>article1</th>
+                        <th>article2</th>
+                        <th>article3</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>transaction2</th>
+                        <th>article4</th>
+                        <th>article5</th>
+                        <th>None</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                    </tr>
+                </table>
+            </div>
+            <p class="indent">
+                <b>Experiment:</b> Example Python libraries are efficient_apriori, pyfpgrowth, MLxtend.
+            </p>
+            <p class="indent">
+                <b>Note:</b> Libraries may require different data preprocessing, depend on the specific requirements.
+            </p>
+            <p class="indent">
+                <b>Results:</b>
+                <span id="asso_20" style="display: none;">
+                    [{Broetchen} -> {Bananen Lose}, {Gurken ST} -> {Bananen
+                    Lose}, {Bananen Lose} -> {Gurken ST}...]
+                </span>
+                <span id="asso_10" style="display: none; color:red">
+                    [{Bananen Lose, Broetchen} -> {BO-Laugenbreze 1ST},
+                    {BO-Laugenbreze 1ST, Broetchen} -> {Bananen Lose}...]
+                </span>
+            </p>
+            <p class="indent">
+                <b>Insights:</b>
+                <span>
+                    Different number of top-frequency articles will outcome
+                    different rule results. When few intereting results are
+                    produced, modify it!
+                </span>
+            </p>
+
+        </div>
+
+        <div class="detail" id="detail2">
+            <p style="text-align: center;font-size:30px;">
+                Prediction (not related to top 10/20 articles)
+            </p>
+            <p class="indent">
+                <b>Algorithms:</b> Regression models.
+            </p>
+            <p class="indent">
+                <b>Data preprocessing:</b> Set variables like date and store number as learning objects; sales quantity as forecast object.
+            </p>
+            <p class="indent">
+                <b>Experiment:</b> Example Python library is sklearn, and it contains multiple regression models like Lasso, AdaBoost, RandomForest.
+            </p>
+            <p class="indent">
+                <b>Example result:</b> Sales prediction for article"Laugenbreze" in the following figure:
+                <div style="text-align: center;">
+                    <img src="static/images/prediction_example.png" style="width: 40%;">
+                </div>
+            </p>
+            <p style="text-align: center;font-size:30px;">
+                Price simulation ("Laugenbreze")
+            </p>
+            <p class="indent">
+                <b>current price:</b> 0.35&euro;/kg; <b>current revenue:</b> 13221.89&euro;
+            </p>
+            <p class="indent">
+                <b>simulated optimal price:</b> 0.44&euro;/kg
+            </p>
+            <p class="indent">
+                <b>Maximum acceptable profit loss percentage</b> (please enter an integer)<input type="number" id="lossInput">
+                <button onclick="lossConfirm()">Confirm</button>
+            </p>
+            <p class="indent" id="interval" style="text-align: center;">
+            </p>
+        </div>
+
+        <div class="detail" id="detail3">
+            <p style="text-align: center;font-size:30px;">
+                Clustering
+            </p>
+            <p class="indent">
+                <b>Algorithms:</b> KMeans (TimeSeriesKMeans), DBSCAN.
+            </p>
+            <p class="indent">
+                <b>Data preprocessing:</b> Convert the data format to the following style:
+            </p>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>date1</th>
+                        <th>date2</th>
+                        <th>date3</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>Store</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>store1</th>
+                        <th>sales1</th>
+                        <th>sales2</th>
+                        <th>sales3</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>store2</th>
+                        <th>sales4</th>
+                        <th>sales5</th>
+                        <th>sales6</th>
+                        <th>...</th>
+                    </tr>
+                    <tr>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>...</th>
+                    </tr>
+                </table>
+            </div>
+            <p class="indent">
+                <b>Experiment:</b> Example Python library is tslearn.
+            </p>
+            <p class="indent">
+                <b>Note:</b> Libraries may require different data preprocessing, depend on the specific requirements.
+            </p>
+            <p class="indent">
+                <b>Results:</b>
+                <div class="double_indent" id="clust_20" style="display: none;">
+                    <p>Cluster 1: [1007, 1033, 1053, 1223, 1311]</p>
+                    <p>Cluster 2: [1001, 1028, 1098, 1303, 1487]</p>
+                    <p>Cluster 3: [1417, 1436, 1504, 2801]</p>
+                    <p>
+                        <b>Cluster 1:</b>
+                        <div style="text-align: center;">
+                            <img src="static/images/cluster_result_20.png" style="width: 70%;">
+                        </div>
+                    </p>
+                </div>
+                <div class="double_indent" id="clust_10" style="display: none; color: red">
+                    <p>Cluster 1: [1033, 1053, 1223, 1311]</p>
+                    <p>Cluster 2: [1007, 1098, 1303, 1487]</p>
+                    <p>Cluster 3: [1001, 1028, 1417, 1436, 1504, 2801]</p>
+                    <p>
+                        <b>Cluster 1:</b>
+                        <div style="text-align: center;">
+                            <img src="static/images/cluster_result_10.png" style="width: 70%;">
+                        </div>
+                    </p>
+                </div>
+            </p>
+            <p class="indent">
+                <b>Insights:</b>
+                <span>
+                    The number of different top articles slightly affects
+                    the clustering results. For example in the above
+                    results,
+                    from selecting the top 20 articles to the top 10
+                    articles, store number 1007 is clustered in the second
+                    cluster,
+                    while the other stores in the first cluster remain
+                    unchanged. This suggests that the other stores in the
+                    first
+                    cluster are concentrating their sales on the top 10
+                    articles rather than others, and the shop manager can
+                    apply
+                    the same or similar promotions specifically on top 10
+                    articles to those stable stores, while the fluctuating
+                    stores are analysed in more detail and promotions are
+                    applied individually.
+                </span>
+            </p>
+        </div>
+
+        <div class="detail" id="detail4">
+            <p style="text-align: center;font-size:30px;">
+                Classification
+            </p>
+            <p class="indent">
+                <b>Algorithms:</b> Logistic regression, RandomForest classifier, Neural network.
+            </p>
+            <p class="indent">
+                <b>Data preprocessing:</b> Set sales quantity of each top articles as learning objects; store number as the objects to be classified.
+            </p>
+            <p class="indent">
+                <b>Experiment:</b> Example Python libraries are keras, tensorflow. Example software is Weka.
+            </p>
+            <p class="indent">
+                <b>Note:</b> Libraries may require different data preprocessing, depend on the specific requirements.
+            </p>
+            <p class="indent">
+                <b>Results:</b>
+                <span id="class_20" style="display: none;text-align: center;">RandomForest
+                    Classification accuracy: 78.5377%</span>
+                <span id="class_10" style="display: none;text-align: center; color:red">RandomForest
+                    Classification accuracy: 53.5377%</span>
+            </p>
+            <p class="indent">
+                <b>Insights:</b>
+                <span>
+                    It is obvious that the more top-frequency articles lead
+                    to more accurate store classification results.
+                    However, analysing too many articles is impractical and
+                    boring, while the significance of a small number of
+                    articles with low accuracy is also very limited for
+                    store manager, so choosing the appropriate number of top
+                    articles to focus on is worth discussing.
+                </span>
+            </p>
+        </div>
+        <div class="detail" id="detail5">
+            <p style="text-align: center;font-size:30px;">
+                Matrix Factorization (not related to top 10/20 articles)
+            </p>
+            <p class="indent">
+                <b>Use case:</b> Recommender system
+            </p>
+            <p class="indent">
+                <b>Data preprocessing:</b> Rating interaction between the customers and the items, with columns ["User", "Item", "Rating"].
+            </p>
+            <p class="indent">
+                <b>Experiment:</b> Example Python library is Surprise. In Surprise, MF is implemented by SVD() function.
+            </p>
+            <p class="indent">
+                <b>Note:</b> Libraries may require different data preprocessing, depend on the specific requirements.
+            </p>
+            <p class="indent">
+                <b>Result:</b> Confusion matrix for predictive recommender simulation in the following figure:
+                <div style="text-align: center;">
+                    <img src="static/images/confusion_matrix.png" style="width: 40%;">
+                    <p>Accuracy: 72.7466%</p>
+                </div>
+            </p>
+            <p class="indent">
+                <b>Insights:</b>
+                <span>
+                    The customers may purchase the articles based on their liking, and for sales data, each transaction resembles a customer rating multiple commodities.
+                    The accuracy reaches more than 0.7, indicating that this simulation is worthy of consideration.
+                </span>
+            </p>
+        </div>
+
+
+        <div class="process_title">
+            <p>
+                Data preprocessing
+            </p>
+        </div>
+        <div class="arrow_1"></div>
+
+        <div style="text-align: center;">
+            <svg width="800" height="2000">
+                <!-- rec1 -->
+                <rect x="50" y="50" width="300" height="50" fill="white" stroke="black" stroke-width="2"></rect>
+                <text x="200" y="75" fill="black" text-anchor="middle"
+                    alignment-baseline="middle">
+                    1. Import data in 'ISO-8859-1' encoding
+                </text>
+                <!-- rec2 -->
+                <rect x="50" y="200" width="300" height="50" fill="white" stroke="black" stroke-width="2"></rect>
+                <text x="200" y="225" fill="black" text-anchor="middle"
+                    alignment-baseline="middle">2. Delete all missing
+                    data</text>
+                <!-- rec3 -->
+                <rect x="50" y="350" width="300" height="50" fill="white" stroke="black" stroke-width="2"></rect>
+                <text x="200" y="375" fill="black" text-anchor="middle"
+                    alignment-baseline="middle">3. Convert the raw time
+                    format</text>
+                <!-- rec4 -->
+                <rect x="500" y="50" width="300" height="50" fill="white" stroke="black" stroke-width="2"></rect>
+                <text x="650" y="75" fill="black" text-anchor="middle"
+                    alignment-baseline="middle">4. Eliminate the data with "Quantity &lt; 0"</text>
+                <!-- rec5 -->
+                <rect x="500" y="200" width="300" height="50" fill="cyan" stroke="black" stroke-width="2"
+                    onclick="changeTop()" style="cursor: pointer;"></rect>
+                <text id="top_article" x="650" y="225" fill="black"
+                    text-anchor="middle" alignment-baseline="middle" onclick="changeTop()" style="cursor: pointer;">5.
+                    Select top 20
+                    articles</text>
+                <!-- rec6 -->
+                <rect x="500" y="350" width="300" height="50" fill="white" stroke="black" stroke-width="2"></rect>
+                <text x="650" y="375" fill="black" text-anchor="middle"
+                    alignment-baseline="middle">6. Save to
+                    “Article_top_Data.csv”</text>
+
+                <!-- arrow-head -->
+                <line x1="200" y1="100" x2="200" y2="190" stroke="black" stroke-width="2"
+                    marker-end="url(#arrowhead_1)"></line>
+                <marker id="arrowhead_1" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto" fill="black">
+                    <polygon points="0 0, 10 3.5, 0 7"></polygon>
+                </marker>
+
+                <line x1="200" y1="250" x2="200" y2="340" stroke="black" stroke-width="2"
+                    marker-end="url(#arrowhead_2)"></line>
+                <marker id="arrowhead_2" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto" fill="black">
+                    <polygon points="0 0, 10 3.5, 0 7"></polygon>
+                </marker>
+
+                <line x1="650" y1="100" x2="650" y2="190" stroke="black" stroke-width="2"
+                    marker-end="url(#arrowhead_3)"></line>
+                <marker id="arrowhead_3" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto" fill="black">
+                    <polygon points="0 0, 10 3.5, 0 7"></polygon>
+                </marker>
+
+                <line x1="650" y1="250" x2="650" y2="340" stroke="black" stroke-width="2"
+                    marker-end="url(#arrowhead_4)"></line>
+                <marker id="arrowhead_4" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto" fill="black">
+                    <polygon points="0 0, 10 3.5, 0 7"></polygon>
+                </marker>
+
+                <line x1="350" y1="375" x2="425" y2="375" stroke="black" stroke-width="2"></line>
+                <line x1="425" y1="375" x2="425" y2="75" stroke="black" stroke-width="2"></line>
+                <line x1="425" y1="75" x2="490" y2="75" stroke="black" stroke-width="2" marker-end="url(#arrowhead_5)">
+                </line>
+                <marker id="arrowhead_5" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto" fill="black">
+                    <polygon points="0 0, 10 3.5, 0 7"></polygon>
+                </marker>
+
+            </svg>
+        </div>
+
+        <div class="fixed_box">
+            cyan boxes are clickable
+        </div>
+
+    </main>
+
+</body>
+
+</html>
